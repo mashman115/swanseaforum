@@ -78,8 +78,6 @@
         </main>
     </div>
     <script>
-
-
     function showOrHideEdit(id) {
       var x = document.getElementById("editForm" + id);
       if (x.style.display === "none") {

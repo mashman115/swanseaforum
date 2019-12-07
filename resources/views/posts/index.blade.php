@@ -29,6 +29,11 @@
                     <br>
                     <input type="text" name="content" size=75 placeholder="Description" value="{{ old('content') }}">
                     <br>
+                    Pick one or more tag(s):
+                    <br>
+                    @foreach($tags as $tag)
+                      <input type="checkbox" name="tags[]" value="{{$tag->id}}" >{{$tag->tag}}
+                    @endforeach
                     <input type="file" name="photo_name" value="{{ old('photo_name') }}"accept="image/*" >
                     <br>
                     @auth

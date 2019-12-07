@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Auth;
+use App\Tag;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -19,7 +20,8 @@ class PostController extends Controller
         //$posts = DB::table('posts')->paginate(10);
         //$posts = Post::orderByDesc('created_at')->get();
         $posts = Post::orderByDesc('created_at')->paginate(15);
-        return view('posts.index', ['posts' => $posts]);
+        $tags = Tag::get();
+        return view('posts.index', ['posts' => $posts],['tags' =>$tags]);
     }
 
 
@@ -47,19 +49,31 @@ class PostController extends Controller
         $validatedData = $request->validate([
           'title' => 'required|max:100',
           'content' => 'required|max:255',
-          'photo_name' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+          'photo_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+          'tags' => 'required',
         ]);
 
-        $imageName = time().$request->file('photo_name')->getClientOriginalName();
-        $request->file('photo_name')->move(base_path() . '/public/images/', $imageName);
+        $imageName = "";
+        if ($request->photo_name != null){
+          $imageName = time().$request->file('photo_name')->getClientOriginalName();
+          $request->file('photo_name')->move(base_path() . '/public/images/', $imageName);
+        }
+
 
         $post = new Post;
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->photo_name = $imageName;
         $post->user_id = auth()->user()->id;
-
         $post->save();
+
+        $tags = $request->input('tags');
+        foreach($tags as $tag){
+          $post_id = DB::table('posts')->pluck('id')->last();
+          //dd($post_id,$tag);
+          DB::table('post_tag')->insert(['post_id'=> $post_id,'tag_id' => $tag]);
+        }
+
         session()->flash('messagePost','Post created.');
 
         return redirect()->route('posts.index');

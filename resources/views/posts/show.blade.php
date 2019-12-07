@@ -13,6 +13,11 @@
             <div class="card">
                 <div class="card-header"> <h2> {{ $post->title }} </h2>
                   <div> <h4> {{ $post->content }} </h4> </div>
+                  <div> Tags:
+                    @foreach ($post->tags as $tag)
+                    {{$tag->tag}}
+                    @endforeach
+                  </div>
                   <div style="border: 1px solid black">
                     <img class="card-img" src="{{ url('/images/'.$post->photo_name) }}">
                   </div>
@@ -95,7 +100,7 @@
 
 <div id="root">
   <ul>
-    <li v-for="comment in comments">@{{comments.content}}</li>
+    <li>@{{comments}}</li>
   </ul>
 </div>
 
@@ -117,4 +122,5 @@ var app = new Vue({
   },
 });
 </script>
+
 @endsection

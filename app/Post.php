@@ -23,4 +23,11 @@ class Post extends Model
     {
       return $this->belongsTo('App\User');
     }
+
+    /**
+    * Get the tags from a post
+    */
+    public function tags(){
+      return $this->belongsToMany('App\Tag');
+    }
 }
