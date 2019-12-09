@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class CommentController extends Controller
 {
     /**
@@ -114,17 +117,14 @@ class CommentController extends Controller
       return $comments;
     }
 
-    public function apiStore(Request $request)
+    public function apiStore(Request $request, $id)
     {
-      $validatedData = $request->validate([
-        'content' => 'required|max:255',
-      ]);
-
       $comment = new Comment;
 
-      $comment->content = $validatedData['content'];
-      $comment->post_id = $request->input("post_id");
-      $comment->user_id = auth()->user()->id;
+      $comment->content = $request['name'];
+      $comment->post_id = $id;
+      $comment->user_id = 1;
+      $comment->save();
 
       return $comment;
     }
