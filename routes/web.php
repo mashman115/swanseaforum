@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Auth::routes();
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -31,3 +35,5 @@ Route::post('/posts/{id}', 'PostController@update')->name('posts.update');
 Route::post('/comments', 'CommentController@store')->name('comments.store');
 
 Route::post('/comments/{id}', 'CommentController@update')->name('comments.update');
+
+Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');

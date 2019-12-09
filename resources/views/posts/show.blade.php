@@ -100,7 +100,7 @@
 
 <div id="root">
   <ul>
-    <li>@{{comments}}</li>
+    <li v-for"comment in comments">@{{comment.content}}</li>
   </ul>
 </div>
 

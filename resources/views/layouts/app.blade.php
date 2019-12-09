@@ -67,6 +67,13 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                              <div>
+                                  <a class="nav-link" href="{{ route('profile.show', ['id' => Auth::user()->id]) }}">
+                                    <div> Profile </div>
+                                  </a>
+                              </div>
+                            </li>
                         @endguest
                     </ul>
                 </div>
