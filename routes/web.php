@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/profile','ProfileController@index')->name('profile.index')->middleware('auth');
+
 
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -37,3 +39,5 @@ Route::post('/comments', 'CommentController@store')->name('comments.store');
 Route::post('/comments/{id}', 'CommentController@update')->name('comments.update');
 
 Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');
+
+Route::post('/profile', 'ProfileController@store')->name('profile.store');
