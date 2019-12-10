@@ -38,6 +38,7 @@ Route::post('/comments', 'CommentController@store')->name('comments.store');
 
 Route::post('/comments/{id}', 'CommentController@update')->name('comments.update');
 
+
 Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');
 
 Route::post('/profile', 'ProfileController@store')->name('profile.store');

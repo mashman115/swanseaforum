@@ -85,7 +85,15 @@
                   <div id="root">
                 <div class="card-body" v-for="comment in comments">
                   <b> @{{comment.user_id}} </b> --  @{{ comment.created_at}}
-                    <div class ="card-footer"> @{{ comment.content }} </div>
+                    <div class ="card-footer"> @{{ comment.content }} - @{{comment.id}} </div>
+                    <div v-if="comment.user_id == {{auth()->user()->id}}">
+                      <form id="editID" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" v-model="comment.id" value="comment.id" id="idfield">
+                        <input onChange="updateAction()" type="text" name="content" size=75 placeholder="Description" v-model="comment.content" value="comment.content">
+                        <input type="submit" value="Edit Comment">
+                      </form>
+                    </div>
                   </div>
                 <div class="card">
                     <div class="card-header"> Comment on this post
@@ -101,6 +109,11 @@
 </div>
 
 <script>
+function updateAction() {
+        var url = document.getElementById("idfield").value;
+        document.getElementById("editID").setAttribute("action", "http://swanseaforum.test/comments/" + url);
+    }
+
   var app = new Vue({
     el: "#root",
     data() {

@@ -77,7 +77,7 @@
                    </div>
                   </div>
                   <div id="editForm{{ $post->id }}"  style="display:none;" >
-                    <form method="POST" action="{{ route('posts.update', ['id' => $post->id])}}">
+                    <form method="POST" action="{{ route('posts.update', ['id' => $post->id]) }}">
                       @csrf
                       <input type="text" name="title" placeholder="Title" value="{{ $post->title }}">
                       <br>
