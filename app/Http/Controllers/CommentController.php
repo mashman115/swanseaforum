@@ -117,13 +117,13 @@ class CommentController extends Controller
       return $comments;
     }
 
-    public function apiStore(Request $request, $id)
+    public function apiStore(Request $request, $id,$user_id)
     {
       $comment = new Comment;
 
       $comment->content = $request['name'];
       $comment->post_id = $id;
-      $comment->user_id = 1;
+      $comment->user_id = $user_id;
       $comment->save();
 
       return $comment;
