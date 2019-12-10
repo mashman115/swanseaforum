@@ -82,7 +82,7 @@
                   </div>
                   <div> Posted by: <b>{{ $post->user->username }} </b></div>
                   <br>
-                  <div id="root" @change="getComments">
+                  <div id="root">
                 <div class="card-body" v-for="comment in comments">
                   <b> @{{comment.user_id}} </b> --  @{{ comment.created_at}}
                     <div class ="card-footer"> @{{ comment.content }} </div>
@@ -125,12 +125,13 @@ methods:{
     })
   },
   createComment: function(){
-    axios.post("{{ route('api.comments.store', ['id' => $post->id])}} ",{
+    axios.post("{{ route('api.comments.store', ['id' => $post->id, 'user_id' =>Auth::user()->id] ) }} ",{
       name: this.newComment,
     })
     .then(response =>{
-      this.comments.push(response.data);
+      //this.comments.push(response.data);
       this.newComment = '';
+      this.getComments();
     })
     .catch(response =>{
       console.log(response);
