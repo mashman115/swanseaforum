@@ -86,21 +86,22 @@
                 <div class="card-body" v-for="comment in comments">
                   <b> @{{comment.user_id}} </b> --  @{{ comment.created_at}}
                     <div class ="card-footer"> @{{ comment.content }} - @{{comment.id}} </div>
+                    @auth
                     <div v-if="comment.user_id == {{auth()->user()->id}}">
                       <form id="editID" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" v-model="comment.id" value="comment.id" id="idfield">
-                        <input onChange="updateAction()" type="text" name="content" size=75 placeholder="Description" v-model="comment.content" value="comment.content">
+                        <input onChange="updateAction()" type="text" name="content" size=75 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
                         <input type="submit" value="Edit Comment">
                       </form>
                     </div>
+                    @endauth
                   </div>
                 <div class="card">
                     <div class="card-header"> Comment on this post
                       <input type ="text" id="input" v-model.lazy="newComment" >
                       <button @click="createComment"> Add Comment</button>
                     </div>
-
                     </div>
                 </div>
             </div>

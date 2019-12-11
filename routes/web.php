@@ -29,7 +29,10 @@ Route::get('/posts', 'PostController@index')->name('posts.index');
 
 Route::post('/posts', 'PostController@store')->name('posts.store');
 
-Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
+
+Route::get('/posts/{id}', 'PostController@show')->name('posts.show')->middleware('auth');
+
+Route::delete('/posts/{id}', 'PostController@destroy')->name('posts.destroy');
 
 Route::post('/posts/{id}', 'PostController@update')->name('posts.update');
 
@@ -38,7 +41,6 @@ Route::post('/comments', 'CommentController@store')->name('comments.store');
 
 Route::post('/comments/{id}', 'CommentController@update')->name('comments.update');
 
+Route::post('/profile', 'ProfileController@store')->name('profile.store');
 
 Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');
-
-Route::post('/profile', 'ProfileController@store')->name('profile.store');

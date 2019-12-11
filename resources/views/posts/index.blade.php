@@ -9,20 +9,14 @@
             <div class="card">
                 <div class="card-header"> Create your own post </div>
                 <div class="card-body">
-                  @if ($errors->any())
-                    <div>
-                      <ul>
-                        @foreach ($errors->all() as $error)
-                          <li> {{ $error }} </li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
+
 
                   @if (session('messagePost'))
                     <p style="color:green;"><b> {{ session('messagePost') }}</b></p>
                   @endif
-
+                  @if (session('messageDelete'))
+                    <p style="color:red;"> <b> {{ session('messageDelete') }}</b></p>
+                  @endif
                   <form method="POST" action="{{ route('posts.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="text" name="title" placeholder="Title" value="{{ old('title') }}">
@@ -49,6 +43,23 @@
     </div>
 </div>
 <br>
+@if ($errors->any())
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li style="color:red"> {{ $error }} </li>
+                @endforeach
+              </ul>
+  </div>
+</div>
+</div>
+</div>
+</div>
+@endif
+
 
 @foreach ($posts as $post)
 
@@ -68,21 +79,33 @@
 
                   @auth
                   @if (auth()->user()->id == $post->user->id)
-                  @if (session('messageEdit'))
-                    <p style="color:green;"> <b> {{ session('messageEdit') }}</b></p>
+                  @if (session('messageEdit'.$post->id))
+                    <p style="color:green;"> <b> {{ session('messageEdit'.$post->id) }}</b></p>
                   @endif
+
                   <div style="float:right">
                     <div>
                     <button type="button"  onclick="showOrHideEdit('{{$post->id}}')">Edit</button>
+
+                    <form method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit"> Delete </button>
+                    </form>
                    </div>
                   </div>
                   <div id="editForm{{ $post->id }}"  style="display:none;" >
                     <form method="POST" action="{{ route('posts.update', ['id' => $post->id]) }}">
                       @csrf
-                      <input type="text" name="title" placeholder="Title" value="{{ $post->title }}">
+                      <input type="text" name="editTitle" placeholder="Title" value="{{ $post->title }}">
                       <br>
-                      <input type="text" name="content" size=75 placeholder="Description" value="{{ $post->content }}">
+                      <input type="text" name="editContent" size=75 placeholder="Description" value="{{ $post->content }}">
                       <br>
+                      Pick one or more tag(s):
+                      <br>
+                      @foreach($tags as $tag)
+                        <input type="checkbox" name="editTags[]" value="{{$tag->id}}" @if($post->tags->contains($tag->id)) checked=checked @endif >{{$tag->tag}}
+                      @endforeach
                       <input type="submit" value="Edit Post">
                     </form>
                   </div>

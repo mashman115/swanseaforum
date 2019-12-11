@@ -114,15 +114,24 @@ class PostController extends Controller
       $post = Post::findOrFail($id);
 
       $validatedData = $request->validate([
-        'title' => 'required|max:100',
-        'content' => 'required|max:255',
+        'editTitle' => 'required|max:100',
+        'editContent' => 'required|max:255',
+        'editTags' => 'required',
       ]);
 
-      $post->title = $validatedData['title'];
-      $post->content = $validatedData['content'];
+      $post->title = $validatedData['editTitle'];
+      $post->content = $validatedData['editContent'];
+      $tags = $request->input('editTags');
+
+      DB::table('post_tag')->where('post_id',$id)->delete();
+
+      foreach($tags as $tag){
+        DB::table('post_tag')->insert(['post_id'=> $id,'tag_id' => $tag]);
+      }
+
 
       $post->save();
-      session()->flash('messageEdit','Post edited successfully.');
+      session()->flash('messageEdit'.$id,'Post edited successfully.');
 
       return redirect()->route('posts.index');
 
@@ -137,6 +146,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        session()->flash('messageDelete','Post deleted successfully');
+        return redirect()->route('posts.index');
     }
 }
