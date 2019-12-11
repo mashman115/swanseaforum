@@ -77,16 +77,17 @@
                     {{$tag->tag}}
                     @endforeach
                   </div>
+                  @if(!is_null($post->photo_name))
                   <div style="border: 1px solid black">
                     <img class="card-img" src="{{ url('/images/'.$post->photo_name) }}">
                   </div>
+                  @endif
                   <div> Posted by: <b>{{ $post->user->username }} </b></div>
                   <br>
                   <div id="root">
                 <div class="card-body" v-for="comment in comments">
-                  <b> @{{comment.user_id}} </b> --  @{{ comment.created_at}}
-                    <div class ="card-footer"> @{{ comment.content }} - @{{comment.id}} </div>
-                    @auth
+                  <b> @{{comment.user.username}} </b> --  @{{ comment.created_at}}
+                    <div class ="card-footer"> @{{ comment.content }} </div>
                     <div v-if="comment.user_id == {{auth()->user()->id}}">
                       <form id="editID" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -95,7 +96,6 @@
                         <input type="submit" value="Edit Comment">
                       </form>
                     </div>
-                    @endauth
                   </div>
                 <div class="card">
                     <div class="card-header"> Comment on this post

@@ -113,7 +113,7 @@ class CommentController extends Controller
 
     public function apiIndex($id)
     {
-      $comments = Comment::all()->where('post_id',$id);
+      $comments = Comment::with('user')->where('post_id',$id)->get();
       return $comments;
     }
 

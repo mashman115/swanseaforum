@@ -70,7 +70,9 @@
                 <div class="card-header"> <a style="text-decoration:none; color:black" href="{{ route('posts.show', ['id' => $post->id]) }}">
                   <h3> {{ $post->title }}
                     @if ($post->photo_name)
-                    -- Image Available
+                    <div style="float:right;">
+                      <img width="100px" height="100px" src="{{ url('/images/'.$post->photo_name) }}">
+                    </div>
                     @endif
                   </h3>
                    Posted by:<b> {{ $post->user->username }} </b> -- {{ $post->created_at->diffForHumans()}}
@@ -83,15 +85,16 @@
                     <p style="color:green;"> <b> {{ session('messageEdit'.$post->id) }}</b></p>
                   @endif
 
-                  <div style="float:right">
+                  <div>
                     <div>
                     <button type="button"  onclick="showOrHideEdit('{{$post->id}}')">Edit</button>
-
-                    <form method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
+                    <div style="float:left">
+                    <form id="deleteForm" onsubmit="return confirm('Are you sure you want to submit?');" method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
                       @csrf
                       @method('DELETE')
-                      <button type="submit"> Delete </button>
+                      <button type="submit" > Delete </button>
                     </form>
+                  </div>
                    </div>
                   </div>
                   <div id="editForm{{ $post->id }}"  style="display:none;" >
@@ -125,6 +128,7 @@
 <div class="row justify-content-center">
 {{$posts->links()}}
 </div>
+
 
 
 @endsection
