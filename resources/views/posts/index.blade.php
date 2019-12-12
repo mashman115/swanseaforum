@@ -17,11 +17,11 @@
                   @if (session('messageDelete'))
                     <p style="color:red;"> <b> {{ session('messageDelete') }}</b></p>
                   @endif
-                  <form method="POST" action="{{ route('posts.store')}}" enctype="multipart/form-data">
+                  <form method="POST" id="post" action="{{ route('posts.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="text" name="title" placeholder="Title" value="{{ old('title') }}">
                     <br>
-                    <input type="text" name="content" size=75 placeholder="Description" value="{{ old('content') }}">
+                    <textarea rows="4" cols="50" name="content" placeholder="Description" value="{{ old('content') }}" form="post"> </textarea>
                     <br>
                     Pick one or more tag(s):
                     <br>

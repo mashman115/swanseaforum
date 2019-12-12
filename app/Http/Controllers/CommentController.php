@@ -108,7 +108,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+      $comment = Comment::findOrFail($id);
+      $comment->delete();
+
+      return redirect()->route('posts.show',['id' => $comment->post_id]);
     }
 
     public function apiIndex($id)
@@ -127,5 +131,10 @@ class CommentController extends Controller
       $comment->save();
 
       return $comment;
+    }
+
+    public function apiDestroy($id)
+    {
+
     }
 }

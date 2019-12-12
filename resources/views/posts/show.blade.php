@@ -65,21 +65,22 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-
+<br>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"> <h2> {{ $post->title }} </h2>
-                  <div> <h4> {{ $post->content }} </h4> </div>
-                  <div> Tags:
+                <div class="card-header"> <h2 class="mt-4"> {{ $post->title }} </h2>
+                  <hr>
+                  <div> <p> {{ $post->content }} </p> </div> <hr>
+                  <div> <b>Tags:</b>
                     @foreach ($post->tags as $tag)
-                    {{$tag->tag}}
+                    -- {{$tag->tag}}
                     @endforeach
                   </div>
                   @if(!is_null($post->photo_name))
                   <div style="border: 1px solid black">
-                    <img class="card-img" src="{{ url('/images/'.$post->photo_name) }}">
+                    <img class="img-fluid rounded" src="{{ url('/images/'.$post->photo_name) }}">
                   </div>
                   @endif
                   <div> Posted by: <b>{{ $post->user->username }} </b></div>
@@ -89,18 +90,20 @@
                   <b> @{{comment.user.username}} </b> --  @{{ comment.created_at}}
                     <div class ="card-footer"> @{{ comment.content }} </div>
                     <div v-if="comment.user_id == {{auth()->user()->id}}">
+
                       <form id="editID" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" v-model="comment.id" value="comment.id" id="idfield">
-                        <input onChange="updateAction()" type="text" name="content" size=75 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
-                        <input type="submit" value="Edit Comment">
+                        <input onChange="updateActionEdit()" type="text" name="content" size=65 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
+                        <button type="submit" class="btn btn-secondary"> Edit Comment </button>
                       </form>
                     </div>
                   </div>
-                <div class="card">
-                    <div class="card-header"> Comment on this post
-                      <input type ="text" id="input" v-model.lazy="newComment" >
-                      <button @click="createComment"> Add Comment</button>
+                <div class="card my-4">
+                    <h6 class="card-header"> Comment on this post: </h5>
+                      <div class="card-body">
+                      <input type ="text" id="input" size="60" v-model.lazy="newComment">
+                      <button class="btn btn-primary" @click="createComment"> Add Comment</button>
                     </div>
                     </div>
                 </div>
@@ -110,10 +113,11 @@
 </div>
 
 <script>
-function updateAction() {
+function updateActionEdit() {
         var url = document.getElementById("idfield").value;
         document.getElementById("editID").setAttribute("action", "http://swanseaforum.test/comments/" + url);
     }
+
 
   var app = new Vue({
     el: "#root",
