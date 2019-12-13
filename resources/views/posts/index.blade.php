@@ -31,9 +31,9 @@
                     <input type="file" name="photo_name" value="{{ old('photo_name') }}"accept="image/*" >
                     <br>
                     @auth
-                      <input type="submit" value="Post">
+                      <button type="submit" class="btn btn-primary"> Post </button>
                     @else
-                      <button type="button" disabled> Post </button> <i>Log in or Register to post. </i>
+                      <button type="button" class="btn btn-primary" disabled> Post </button> <i>Log in or Register to post. </i>
                     @endauth
                   </form>
                 </div>
