@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','username', 'email', 'password',
+        'name','username', 'email', 'isAdmin', 'password',
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -52,5 +53,15 @@ class User extends Authenticatable
     */
     public function profile(){
       return $this->belongsTo('App\Profile');
+    }
+
+    public function isAdmin(){
+      $isAdmin = DB::table('users')->where('id', auth()->user()->id)->value('isAdmin');;
+
+
+      if ($isAdmin == true){
+        return true;
+      }
+      return false;
     }
 }

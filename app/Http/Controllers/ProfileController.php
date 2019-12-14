@@ -51,4 +51,10 @@ class ProfileController extends Controller
 
       return redirect()->route('home');
   }
+
+  public function isAdmin()
+  {
+    $profiles = Profile::get();
+    return view('profile.showAdmin', ['profiles' => $profiles]);
+  }
 }

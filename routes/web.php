@@ -25,6 +25,7 @@ Route::get('/profile','ProfileController@index')->name('profile.index')->middlew
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 Route::get('/posts', 'PostController@index')->name('posts.index');
 
 Route::post('/posts', 'PostController@store')->name('posts.store');
@@ -43,6 +44,11 @@ Route::post('/comments/{id}', 'CommentController@update')->name('comments.update
 
 Route::delete('/comments/{id}', 'CommentController@destroy')->name('comments.destroy');
 
-Route::post('/profile', 'ProfileController@store')->name('profile.store');
+Route::post('/profile', 'ProfileController@store')->name('profile.store')->middleware('auth');
 
 Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');
+
+Route::group(['middleware' => ['auth', 'is.admin']], function() {
+  Route::get('/admin', 'ProfileController@isAdmin')->name('profile.showAdmin')->middleware('is.admin');
+
+});
