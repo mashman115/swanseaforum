@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Profile;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 
 class ProfileController extends Controller
@@ -19,7 +20,10 @@ class ProfileController extends Controller
   {
 
       $profile = Profile::where('user_id', $id)->first();
-      return view('profile.show', ['profile' => $profile]);
+      if ($id == auth()->user()->id){
+        return view('profile.show', ['profile' => $profile]);
+      }
+      return redirect()->route('home');
   }
 
   public function index()

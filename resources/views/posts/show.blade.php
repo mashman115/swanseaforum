@@ -79,7 +79,7 @@
                     @endforeach
                   </div>
                   @if(!is_null($post->photo_name))
-                  <div style="border: 1px solid black">
+                  <div>
                     <img class="img-fluid rounded" src="{{ url('/images/'.$post->photo_name) }}">
                   </div>
                   @endif
