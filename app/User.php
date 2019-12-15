@@ -56,12 +56,11 @@ class User extends Authenticatable
     }
 
     public function isAdmin(){
-      $isAdmin = DB::table('users')->where('id', auth()->user()->id)->value('isAdmin');;
+      return DB::table('users')->where('id', auth()->user()->id)->value('isAdmin');
 
-
-      if ($isAdmin == true){
-        return true;
-      }
-      return false;
+      // if ($isAdmin == true){
+      //   return true;
+      // }
+      // return false;
     }
 }

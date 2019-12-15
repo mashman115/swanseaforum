@@ -6,7 +6,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+          @if (session('notAuthorized'))
+            <p style="color:red;"><strong> {{ session('notAuthorized') }}</strong></p>
+          @endif
             <div class="card">
+
                 <div class="card-header"> Create your own post </div>
                 <div class="card-body">
 

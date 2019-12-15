@@ -1,71 +1,10 @@
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@extends('layouts.app')
 
-<div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                Swansea Forum @yield('title')
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
-                    <!-- Authentication Links -->
-                    @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->username }} <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                          <div>
-                              <a class="nav-link" href="{{ route('profile.show', ['id' => Auth::user()->id]) }}">
-                                <div> Profile </div>
-                              </a>
-                          </div>
-                        </li>
-                    @endguest
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-</div>
+@section('title', ' - Post')
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<br>
+@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -91,9 +30,8 @@
                     <div class ="card-footer"> @{{ comment.content }} </div>
                     <div v-if="comment.user_id == {{auth()->user()->id}}">
 
-                      <form id="editID" method="POST" enctype="multipart/form-data">
+                      <form id="editID" v-bind:action="'http://swanseaforum.test/comments/'+comment.id" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" v-model="comment.id" value="comment.id" id="idfield">
                         <input onChange="updateActionEdit()" type="text" name="content" size=65 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
                         <button type="submit" class="btn btn-secondary"> Edit Comment </button>
                       </form>
@@ -102,7 +40,7 @@
                 <div class="card my-4">
                     <h6 class="card-header"> Comment on this post: </h5>
                       <div class="card-body">
-                      <input type ="text" id="input" size="60" v-model.lazy="newComment">
+                      <input type ="text" id="input" size="65" v-model.lazy="newComment">
                       <button class="btn btn-primary" @click="createComment"> Add Comment</button>
                     </div>
                     </div>
@@ -111,14 +49,9 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-function updateActionEdit() {
-        var url = document.getElementById("idfield").value;
-        document.getElementById("editID").setAttribute("action", "http://swanseaforum.test/comments/" + url);
-    }
-
-
   var app = new Vue({
     el: "#root",
     data() {
@@ -158,3 +91,4 @@ methods:{
 }
 });
 </script>
+@endsection

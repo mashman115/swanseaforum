@@ -14,11 +14,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
-                    @if (session('messagePost'))
-                      <p style="color:green;"><b> {{ session('messagePost') }}</b></p>
-                    @endif
+                    
                 </div>
             </div>
         </div>

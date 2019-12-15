@@ -20,10 +20,11 @@ class ProfileController extends Controller
   {
 
       $profile = Profile::where('user_id', $id)->first();
-      if ($id == auth()->user()->id){
+      if ($id == auth()->user()->id ){
         return view('profile.show', ['profile' => $profile]);
       }
-      return redirect()->route('home');
+      session()->flash('notAuthorized','Not authorized!');
+      return redirect()->route('posts.index');
   }
 
   public function index()
@@ -45,15 +46,14 @@ class ProfileController extends Controller
         'description' => 'required',
       ]);
 
-
       $profile = new Profile;
       $profile->description = $validatedData['description'];
       $profile->user_id = auth()->user()->id;
       $profile->save();
 
-      session()->flash('messagePost','Profile made!.');
+      session()->flash('messagePost','Profile made!');
 
-      return redirect()->route('home');
+      return redirect()->route('posts.index');
   }
 
   public function isAdmin()

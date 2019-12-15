@@ -20,8 +20,8 @@ class CheckIsAdmin
       if (Auth::check() && Auth::user()->isAdmin()) {
         return $next($request);
       } else {
-        session()->flash('messagePost','Not authorized!');
-        return redirect('/home');
+        session()->flash('notAuthorized','Not authorized!');
+        return redirect('/posts');
       }
 
     }
