@@ -50,5 +50,11 @@ Route::get('/profile/{id}', 'ProfileController@show')->name('profile.show');
 
 Route::group(['middleware' => ['auth', 'is.admin']], function() {
   Route::get('/admin', 'ProfileController@isAdmin')->name('profile.showAdmin')->middleware('is.admin');
-
 });
+
+use App\NewsApi;
+app()->singleton('App\NewsApi', function($app){
+  return new NewsApi('https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=','658f5779a0f1484e8bae58d44ed3ee67');
+});
+
+Route::get('NewsApi','NewsApiController@index')->name('newsapi.index');

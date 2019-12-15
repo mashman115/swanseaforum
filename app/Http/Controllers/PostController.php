@@ -21,6 +21,8 @@ class PostController extends Controller
         //$posts = Post::orderByDesc('created_at')->get();
         $posts = Post::orderByDesc('created_at')->paginate(10);
         $tags = Tag::get();
+
+
         return view('posts.index', ['posts' => $posts],['tags' =>$tags]);
     }
 

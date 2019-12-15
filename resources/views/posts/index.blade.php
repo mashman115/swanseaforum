@@ -89,7 +89,7 @@
                     <div>
                     <button type="button"  onclick="showOrHideEdit('{{$post->id}}')">Edit</button>
                     <div style="float:left">
-                    <form id="deleteForm" onsubmit="return confirm('Are you sure you want to submit?');" method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
+                    <form id="deleteForm" onsubmit="return confirm('Are you sure you want to delete?');" method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
                       @csrf
                       @method('DELETE')
                       <button type="submit" > Delete </button>
