@@ -27,15 +27,24 @@
                   <div id="root">
                 <div class="card-body" v-for="comment in comments">
                   <b> @{{comment.user.username}} </b> --  @{{ comment.created_at}}
-                    <div class ="card-footer"> @{{ comment.content }} </div>
+                    <div class ="card-footer"> @{{ comment.content }}
                     <div v-if="comment.user_id == {{auth()->user()->id}}">
-
-                      <form id="editID" v-bind:action="'http://swanseaforum.test/comments/'+comment.id" method="POST" enctype="multipart/form-data">
+                      <button type="button" class="btn btn-dark"  style="float:right" v-bind:onclick="'showOrHideEdit('+comment.id+')'">Edit</button>
+                      <br>
+                      <div v-bind:id="'editForm'+comment.id"  style="display:none;" >
+                      <form id="editID" style="display:inline-block;" v-bind:action="'http://swanseaforum.test/comments/'+comment.id" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input onChange="updateActionEdit()" type="text" name="content" size=65 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
+                        <input onChange="updateActionEdit()" type="text" name="content" size=49 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
                         <button type="submit" class="btn btn-secondary"> Edit Comment </button>
                       </form>
+                      <form id="deleteForm" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete?');" method="POST" v-bind:action="'http://swanseaforum.test/comments/'+comment.id">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" type="submit" >X</button>
+                      </form>
                     </div>
+                  </div>
+                  </div>
                   </div>
                 <div class="card my-4">
                     <h6 class="card-header"> Comment on this post: </h5>

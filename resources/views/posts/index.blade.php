@@ -82,7 +82,15 @@
                    Posted by:<b> {{ $post->user->username }} </b> -- {{ $post->created_at->diffForHumans()}}
 
                  </a>
-
+                 @auth
+                 @if(auth()->user()->isAdmin())
+                 <form id="deleteForm" onsubmit="return confirm('Are you sure you want to delete?');" method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
+                   @csrf
+                   @method('DELETE')
+                   <button class="btn btn-danger" type="submit" > Delete </button>
+                 </form>
+                 @endif
+                 @endauth
                   @auth
                   @if (auth()->user()->id == $post->user->id)
                   @if (session('messageEdit'.$post->id))
@@ -91,16 +99,17 @@
 
                   <div>
                     <div>
-                    <button type="button"  onclick="showOrHideEdit('{{$post->id}}')">Edit</button>
+                    <button type="button" class="btn btn-dark"  onclick="showOrHideEdit('{{$post->id}}')">Edit</button>
                     <div style="float:left">
                     <form id="deleteForm" onsubmit="return confirm('Are you sure you want to delete?');" method="POST" action="{{route('posts.destroy',['id' => $post->id]) }}">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" > Delete </button>
+                      <button class="btn btn-danger" type="submit" > Delete </button>
                     </form>
                   </div>
                    </div>
                   </div>
+                  <br>
                   <div id="editForm{{ $post->id }}"  style="display:none;" >
                     <form method="POST" action="{{ route('posts.update', ['id' => $post->id]) }}">
                       @csrf
@@ -113,7 +122,7 @@
                       @foreach($tags as $tag)
                         <input type="checkbox" name="editTags[]" value="{{$tag->id}}" @if($post->tags->contains($tag->id)) checked=checked @endif >{{$tag->tag}}
                       @endforeach
-                      <input type="submit" value="Edit Post">
+                      <button class="btn btn-primary" type="submit" > Edit </button>
                     </form>
                   </div>
                   @endif

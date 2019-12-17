@@ -11,6 +11,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'content' =>$faker->paragraph(4),
         'user_id' =>App\User::inRandomOrder()->first()->id,
         'photo_name' => $faker->randomElement(["dylanthomascentre.jpeg",
-        "osyermouthcastle.jpeg","swanseacastle.jpeg","towncentre.jpg"])
+        "osyermouthcastle.jpeg","swanseacastle.jpeg","towncentre.jpg","dog1.jpg","dog2.jpg",
+        "dog3.jpg","dog4.jpeg","dog5.jpg"])
     ];
 });

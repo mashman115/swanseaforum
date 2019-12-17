@@ -42,7 +42,7 @@ Route::post('/comments', 'CommentController@store')->name('comments.store');
 
 Route::post('/comments/{id}', 'CommentController@update')->name('comments.update');
 
-Route::delete('/comments/{id}', 'CommentController@destroy')->name('comments.destroy');
+Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
 
 Route::post('/profile', 'ProfileController@store')->name('profile.store')->middleware('auth');
 
@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'is.admin']], function() {
 
 use App\NewsApi;
 app()->singleton('App\NewsApi', function($app){
-  return new NewsApi('https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=','658f5779a0f1484e8bae58d44ed3ee67');
+  return new NewsApi('https://newsapi.org/v2/top-headlines?sources=','bbc-news&','apiKey=658f5779a0f1484e8bae58d44ed3ee67');
 });
 
 Route::get('NewsApi','NewsApiController@index')->name('newsapi.index');

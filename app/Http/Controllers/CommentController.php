@@ -106,10 +106,10 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
 
-      $comment = Comment::findOrFail($id);
+      //$comment = Comment::findOrFail($id);
       $comment->delete();
 
       return redirect()->route('posts.show',['id' => $comment->post_id]);

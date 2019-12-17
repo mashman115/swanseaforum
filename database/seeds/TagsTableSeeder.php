@@ -13,7 +13,7 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
       $tag1 = new Tag();
-      $tag1->tag = "Computing";
+      $tag1->tag = "Nature";
       $tag1->save();
 
       $tag2 = new Tag();
@@ -21,11 +21,11 @@ class TagsTableSeeder extends Seeder
       $tag2->save();
 
       $tag3 = new Tag();
-      $tag3->tag = "Coursework";
+      $tag3->tag = "General";
       $tag3->save();
 
       $tag4 = new Tag();
-      $tag4->tag = "Technology";
+      $tag4->tag = "Information";
       $tag4->save();
 
       $tag5 = new Tag();
