@@ -13,9 +13,8 @@ class NewsApiController extends Controller
     {
 
       $client = new Client();
-      $request = $client->get($news->baseUrl . $news->source . $news->apiKey);
-      $response = $request->getBody()->getContents();
-      $result = json_decode($response);
+      $request = $client->get($news->baseUrl . $news->source . $news->apiKey)->getBody()->getContents();
+      $result = json_decode($request);
 
       return view('newsapi.index', ['articles' => $result->articles]);
     }

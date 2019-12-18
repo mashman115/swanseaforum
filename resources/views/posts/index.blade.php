@@ -25,7 +25,7 @@
                     @csrf
                     <input type="text" name="title" placeholder="Title" value="{{ old('title') }}">
                     <br>
-                    <textarea rows="4" cols="50" name="content" placeholder="Description" value="{{ old('content') }}" form="post"> </textarea>
+                    <textarea rows="4"cols="50"name="content"placeholder="Description"value="{{ old('content') }}"form="post"></textarea>
                     <br>
                     Pick one or more tag(s):
                     <br>

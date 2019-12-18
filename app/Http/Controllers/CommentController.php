@@ -132,6 +132,20 @@ class CommentController extends Controller
 
       return $comment;
     }
+    public function apiUpdate(Request $request, $id)
+    {
+      $comment = Comment::findOrFail($id);
+
+      $validatedData = $request->validate([
+        'content' => 'required|max:255',
+      ]);
+
+      $comment->content = $validatedData['content'];
+
+      $comment->save();
+
+      return $comment;
+    }
 
     public function apiDestroy($id)
     {

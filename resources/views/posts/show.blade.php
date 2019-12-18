@@ -34,7 +34,7 @@
                       <div v-bind:id="'editForm'+comment.id"  style="display:none;" >
                       <form id="editID" style="display:inline-block;" v-bind:action="'http://swanseaforum.test/comments/'+comment.id" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input onChange="updateActionEdit()" type="text" name="content" size=49 placeholder="Description" v-model.lazy="comment.content" value="comment.content">
+                        <input type="text" name="content" size=49 :value="comment.content">
                         <button type="submit" class="btn btn-secondary"> Edit Comment </button>
                       </form>
                       <form id="deleteForm" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete?');" method="POST" v-bind:action="'http://swanseaforum.test/comments/'+comment.id">
@@ -86,6 +86,19 @@ methods:{
   },
   createComment: function(){
     axios.post("{{ route('api.comments.store', ['id' => $post->id, 'user_id' =>Auth::user()->id] ) }} ",{
+      name: this.newComment,
+    })
+    .then(response =>{
+      //this.comments.push(response.data);
+      this.newComment = '';
+      this.getComments();
+    })
+    .catch(response =>{
+      console.log(response);
+    })
+  },
+  editComment: function(id){
+    axios.post("{{ route('api.comments.update', ['id' => "+id+"] ) }} ",{
       name: this.newComment,
     })
     .then(response =>{
